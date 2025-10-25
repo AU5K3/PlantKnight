@@ -16,7 +16,7 @@ export default function ChangeConnection() {
       <header>
         <h1>Change Connection</h1>
         <nav>
-          <Link to="/">Home</Link>
+          <Link to="/plants">Home</Link>
         </nav>
       </header>
       <main>
