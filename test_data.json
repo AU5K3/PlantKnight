@@ -1,8 +1,9 @@
 {
-    "timestamp": "2025-10-25T13:26:29.569371",
+    "timestamp": "2025-10-25T17:48:15.604240",
+    "device_id": "device_1",
     "species": "Ficus lyrata",
-    "temperature": 75,
-    "moisture": 40,
+    "temperature": 82,
+    "moisture": 65,
     "light_levels": 300,
     "soil_ph": 6.5
 }

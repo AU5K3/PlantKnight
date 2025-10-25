@@ -2,3 +2,6 @@ google.genai
 requests
 python-dotenv
 pymongo
+Flask
+flask-cors
+Flask-Bcrypt

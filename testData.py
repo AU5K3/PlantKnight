@@ -3,9 +3,10 @@ import json
 
 data = {
     "timestamp": datetime.datetime.now().isoformat(),
+    "device_id": "device_1",
     "species": "Ficus lyrata",
-    "temperature": 75,  # in Fahrenheit
-    "moisture": 40,     # in percentage
+    "temperature": 82,  # in Fahrenheit
+    "moisture": 65,     # in percentage
     "light_levels": 300,  # in lumens
     "soil_ph": 6.5
 }
