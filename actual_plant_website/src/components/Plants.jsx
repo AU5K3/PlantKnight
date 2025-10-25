@@ -30,7 +30,7 @@ export default function Plants() {
   };
 
   const handleChangeConnection = () => {
-    navigate("/setup");
+    navigate("/changeconnection");
   };
 
   const openPlantDashboard = (plantId) => {
