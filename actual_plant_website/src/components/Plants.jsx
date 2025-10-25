@@ -21,7 +21,7 @@ export default function Plants() {
   }, []);
 
   const handleAddPlant = () => {
-    navigate("/add-plant"); // or open modal
+    navigate("/addplant"); // or open modal
   };
 
   const handleRemovePlant = () => {
