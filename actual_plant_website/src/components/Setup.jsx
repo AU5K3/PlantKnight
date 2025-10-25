@@ -47,7 +47,7 @@ export default function Setup() {
             required
           />
 
-          <button type="submit">Login</button>
+          <button type="submit">Confirm</button>
         </form>
         <p>{message}</p>
       </main>
