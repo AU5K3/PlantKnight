@@ -306,6 +306,10 @@ def add_plant():
 @app.route('/')
 def home():
     print("Connected to PlantKnight API")
+    return_message = {
+        'message': 'Connected to PlantKnight API'
+    }
+    return jsonify(return_message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
