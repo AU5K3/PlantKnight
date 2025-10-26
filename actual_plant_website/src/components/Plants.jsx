@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import gardenBg from "../sprites/garden_background.png";
+import plantImage from "../sprites/small_plant.png";
 import "../App.css"; // Ensure this file is used for the CSS below
 
 // NOTE: I'm assuming your plant objects have 'id', 'name', 'species', and 'status' properties.
@@ -102,6 +103,11 @@ export default function Plants() {
                 className="plant-item"
                 onClick={() => openPlantDashboard(plant.id)}
               >
+                <img
+                  src={plantImage} // fallback image
+                  alt={plant.name}
+                  className="plant-image"
+                />
                 <div className="plant-info">
                   <h3 className="plant-name">{plant.name}</h3>
                   <p className="plant-species">

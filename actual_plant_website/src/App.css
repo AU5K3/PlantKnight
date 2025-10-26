@@ -195,7 +195,9 @@ button:hover {
 .plant-item {
   /* Makes the entire area clickable and visually distinct */
   cursor: pointer;
-  
+  display: flex;
+  align-items: center;
+  gap: 15px;
   /* Box styling */
   border: 1px solid #e0e0e0;
   border-radius: 6px;
@@ -203,6 +205,7 @@ button:hover {
   margin-bottom: 10px; /* Space between each plant box */
   background-color: #bceecd;
   transition: background-color 0.2s ease;
+  user-select: none;
 }
 
 .plant-item:hover {
@@ -311,4 +314,13 @@ button:hover {
   width: 80%;         /* same width as button group */
   max-width: 700px;
   margin: 40px auto 0 auto;
+}
+
+.plant-item img.plant-image {
+  width: 60px;            /* image size */
+  height: 60px;
+  border-radius: 50%;     /* circular image */
+  object-fit: cover;      /* cover container without distortion */
+  flex-shrink: 0;  
+  user-select: none;       /* prevent image from shrinking */
 }
