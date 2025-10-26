@@ -303,6 +303,30 @@ def add_plant():
         print(f"Error adding plant: {e}")
         return jsonify({'message': str(e)}), 500
 
+@app.route('/api/remove_plant', methods=['POST'])
+def remove_plant():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        device_id = data.get('device_id')
+
+        if not username or not device_id:
+            return jsonify({'message': 'Username and device_id are required'}), 400
+        
+        user_document = users.find_one({'username': username})
+        if not user_document:
+            return jsonify({'message': 'User not found'}), 404
+        
+        users.update_one(
+            {'_id': user_document['_id']},
+            {'$pull': {'devices': device_id}}
+        )
+
+        return jsonify({'message': 'Plant removed successfully', 'id': device_id}), 200
+    except Exception as e:
+        print(f"Error removing plant: {e}")
+        return jsonify({'message': str(e)}), 500
+
 @app.route('/')
 def home():
     print("Connected to PlantKnight API")
