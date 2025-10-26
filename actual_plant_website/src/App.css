@@ -201,7 +201,7 @@ button:hover {
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 10px; /* Space between each plant box */
-  background-color: #fff;
+  background-color: #bceecd;
   transition: background-color 0.2s ease;
 }
 
@@ -303,9 +303,10 @@ button:hover {
   height: 400px;
   overflow-y: auto;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #060706;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #127237;
+
   
   width: 80%;         /* same width as button group */
   max-width: 700px;
