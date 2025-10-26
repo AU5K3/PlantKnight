@@ -241,12 +241,12 @@ def register():
             return jsonify({'message': 'Username already exists'}), 409
         
         hashed_password = Bcrypt().generate_password_hash(password).decode('utf-8')
-        firstDevice = [data['device_id']]
-        print(firstDevice)
+        #firstDevice = [data['device_id']]
+        #print(firstDevice)
         user_document = {
             'username': username,
             'password': hashed_password,
-            'devices': firstDevice
+            'devices': []
         }
         users.insert_one(user_document)
         return jsonify({'message': 'User registered successfully'}), 201
@@ -408,6 +408,7 @@ def remove_plant():
         data = request.get_json()
         username = data.get('username')
         device_id = data.get('device_id')
+        print(data)
 
         if not username or not device_id:
             return jsonify({'message': 'Username and device_id are required'}), 400
@@ -418,7 +419,7 @@ def remove_plant():
         
         users.update_one(
             {'_id': user_document['_id']},
-            {'$pull': {'devices': device_id}}
+            {"$pull": {"devices": {"device_id": device_id}}}
         )
 
         return jsonify({'message': 'Plant removed successfully', 'id': device_id}), 200

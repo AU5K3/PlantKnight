@@ -16,6 +16,7 @@ export default function RemovePlant() {
 
   const fetchUserPlants = async () => {
     try {
+        /*
       // First try to get plants from localStorage (from login)
       const userDataStr = localStorage.getItem('userData');
       if (userDataStr) {
@@ -34,7 +35,7 @@ export default function RemovePlant() {
           setPlants(transformedPlants);
           return;
         }
-      }
+      }*/
       
       // Fallback: Get username from localStorage and fetch from API
       const username = localStorage.getItem('username') || "testuser";
@@ -90,7 +91,7 @@ export default function RemovePlant() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           username: username,
-          device_id: selectedPlant.device_id
+          device_id: selectedPlant
         }),
       });
 
@@ -126,6 +127,7 @@ export default function RemovePlant() {
       setMessage("Please select a plant to remove.");
       return;
     }
+    console.log("Selected plant:", selectedPlant);
     setShowConfirmation(true);
   };
 

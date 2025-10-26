@@ -17,6 +17,7 @@ export default function Plants() {
     async function fetchPlants() {
       try {
         // First try to get plants from localStorage (from login)
+        /*
         const userDataStr = localStorage.getItem('userData');
         if (userDataStr) {
           const userData = JSON.parse(userDataStr);
@@ -34,6 +35,7 @@ export default function Plants() {
             return;
           }
         }
+          */
         
         // Fallback: Get username from localStorage and fetch from API
         const username = localStorage.getItem('username') || "testuser";
