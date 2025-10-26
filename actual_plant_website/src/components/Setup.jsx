@@ -6,15 +6,44 @@ export default function Setup() {
   const [password, setPassword] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(`You entered: ${username} / ${password} / ${deviceId}`);
-
-    // Navigate to AddPlant and pass deviceId
-    navigate("/addplant", { state: { deviceId } });
+    setIsLoading(true);
+    setMessage("Creating account...");
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          username, 
+          password, 
+          device_id: deviceId  // Changed from deviceId to device_id to match API
+        }),
+      });
+      
+      const data = await response.json();
+      console.log("Registration response:", data);
+      
+      if (response.ok) {
+        setMessage("Account created successfully! Redirecting...");
+        // Navigate to AddPlant and pass deviceId and username
+        setTimeout(() => navigate("/addplant", { state: { deviceId, username } }), 1500);
+      } else {
+        setMessage(`Error: ${data.message || 'Failed to create account'}`);
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      setMessage("Error creating account. Please check your connection and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,7 +77,9 @@ export default function Setup() {
             required
           />
 
-          <button type="submit">Finish Setup</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Creating Account..." : "Finish Setup"}
+          </button>
         </form>
         <p>{message}</p>
       </main>

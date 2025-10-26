@@ -231,6 +231,7 @@ def register():
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
+        print(data)
 
         if not username or not password:
             return jsonify({'message': 'Username and password are required'}), 400
@@ -241,6 +242,7 @@ def register():
         
         hashed_password = Bcrypt().generate_password_hash(password).decode('utf-8')
         firstDevice = [data['device_id']]
+        print(firstDevice)
         user_document = {
             'username': username,
             'password': hashed_password,
@@ -269,7 +271,16 @@ def login():
         if not user or not Bcrypt().check_password_hash(user['password'], password):
             return jsonify({'message': 'Invalid username or password'}), 401
         
-        return jsonify({'message': str(user)}), 200
+        # Remove password from response for security and convert ObjectId to string
+        user_data = {}
+        for k, v in user.items():
+            if k != 'password':
+                if isinstance(v, ObjectId):
+                    user_data[k] = str(v)
+                else:
+                    user_data[k] = v
+        
+        return jsonify({'message': 'Login successful', 'user': user_data}), 200
     except Exception as e:
         print(f"Error during login: {e}")
         return jsonify({'message': str(e)}), 500
@@ -359,6 +370,37 @@ def add_plant():
         print(f"Error adding plant: {e}")
         return jsonify({'message': str(e)}), 500
 
+@app.route('/api/get_user_plants', methods=['GET'])
+def get_user_plants():
+    get_user_plants.__doc__ = generate_swagger_docstring(get_user_plants, "User Management")
+    try:
+        username = request.args.get('username')
+        print(f"Fetching plants for user: {username}")
+
+        if not username:
+            return jsonify({'message': 'username is required'}), 400
+
+        user_document = users.find_one({'username': username})
+        if not user_document:
+            return jsonify({'message': 'User not found'}), 404
+
+        # Convert ObjectId to string for JSON serialization
+        plants = []
+        if 'devices' in user_document:
+            for device in user_document['devices']:
+                plant_data = {}
+                for k, v in device.items():
+                    if isinstance(v, ObjectId):
+                        plant_data[k] = str(v)
+                    else:
+                        plant_data[k] = v
+                plants.append(plant_data)
+
+        return jsonify({'message': 'Success', 'plants': plants}), 200
+    except Exception as e:
+        print(f"Error fetching user plants: {e}")
+        return jsonify({'message': str(e)}), 500
+
 @app.route('/api/remove_plant', methods=['POST'])
 def remove_plant():
     remove_plant.__doc__ = generate_swagger_docstring(remove_plant, "User Management")
@@ -414,6 +456,6 @@ def set_dynamic_docs():
     print("--- Dynamic doc generation complete ---")
 
 if __name__ == '__main__':
-    set_dynamic_docs()
+    #set_dynamic_docs()
     app.run(host='0.0.0.0', port=5000, debug=True)
     import datetime

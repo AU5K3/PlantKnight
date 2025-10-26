@@ -10,29 +10,36 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("Logging in...");
 
-    // Example: Send login request to your backend
     try {
-      const res = await fetch("https://your-api-url.com/login", {
+      const res = await fetch("http://127.0.0.1:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
+      console.log("Login response:", data);
 
       if (res.ok) {
-        // ✅ Login successful, redirect to /plants
-        navigate("/plants");
+        setMessage("Login successful! Redirecting...");
+        // Store username and user data for use in other components
+        localStorage.setItem('username', username);
+        if (data.user) {
+          localStorage.setItem('userData', JSON.stringify(data.user));
+        }
+        setTimeout(() => navigate("/plants"), 1500);
       } else {
-        // Show error message from backend
-        setMessage(data.message || "Login failed");
-        navigate("/plants") // remove this later when login functionality works
+        setMessage(`Login failed: ${data.message || 'Invalid credentials'}`);
       }
     } catch (err) {
-      setMessage("Network error. Please try again.");
-      console.error(err);
-      navigate("/plants") // remove this later when login functionality works
+      console.error("Login error:", err);
+      if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+        setMessage("Error: Cannot connect to API server. Please make sure the server is running on port 5000.");
+      } else {
+        setMessage("Network error. Please try again.");
+      }
     }
   };
 
