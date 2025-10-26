@@ -5,7 +5,6 @@ import Login from "./components/Login";
 import Setup from "./components/Setup";
 import Plants from "./components/Plants";
 import Plant from "./components/Plant";
-import ChangeConnection from "./components/ChangeConnection";
 import AddPlant from "./components/AddPlant";
 import "./App.css";
 
@@ -18,7 +17,6 @@ function App() {
         <Route path="/setup" element={<Setup />} />
         <Route path="/plants" element={<Plants />} />
         <Route path="/plants/:plantId" element={<Plant />} />
-        <Route path="/changeconnection" element={<ChangeConnection />} />
         <Route path="/addplant" element={<AddPlant />} />
       </Routes>
     </Router>

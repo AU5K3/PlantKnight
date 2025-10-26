@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function AddPlant() {
-  const [deviceId, setDeviceId] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get deviceId from navigation state, fallback to empty string
+  const [deviceId, setDeviceId] = useState(location.state?.deviceId || "");
   const [plantName, setPlantName] = useState("");
   const [plantSpecies, setPlantSpecies] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,25 +18,15 @@ export default function AddPlant() {
     setMessage("");
 
     try {
-      // Replace with your actual API endpoint
       const response = await fetch("https://your-api-url.com/plants", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          deviceId,
-          plantName,
-          plantSpecies,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId, plantName, plantSpecies }),
       });
 
       if (response.ok) {
         setMessage("Plant added successfully!");
-        // Navigate back to plants list after a short delay
-        setTimeout(() => {
-          navigate("/plants");
-        }, 1500);
+        setTimeout(() => navigate("/plants"), 1500);
       } else {
         setMessage("Error adding plant. Please try again.");
       }
@@ -55,7 +48,6 @@ export default function AddPlant() {
       </header>
       <main>
         <form onSubmit={handleSubmit}>
-
           <label>Name:</label>
           <input
             type="text"

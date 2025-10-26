@@ -29,9 +29,6 @@ export default function Plants() {
     alert("Remove Plant clicked");
   };
 
-  const handleChangeConnection = () => {
-    navigate("/changeconnection");
-  };
 
   const openPlantDashboard = (plantId) => {
     navigate(`/plants/${plantId}`);
@@ -62,9 +59,6 @@ export default function Plants() {
         )}
       </div>
 
-      <div className="plants-footer">
-        <button onClick={handleChangeConnection}>Change Connection</button>
-      </div>
     </div>
   );
 }

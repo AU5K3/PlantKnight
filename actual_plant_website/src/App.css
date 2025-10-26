@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap');
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
@@ -57,25 +59,32 @@ button:hover {
   position: relative;
   height: 100vh;
   width: 100%;
+  background-color: black;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .check-plants-button {
   display: inline-block;
   width: auto;
   position: absolute;
-  top: 180px;             /* distance from top */
+  top: 800px;             /* distance from top */
   left: 50%;             /* center horizontally */
   transform: translateX(-50%); /* adjust for true center */
   padding: 10px 20px;
-  background-color: #068006;
+  background-color: #0a0a0a;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 40px;
   transition: background-color 0.2s ease;
   cursor: pointer;
   user-select: none;
+  font-family: "Cambria";
+  outline: 2px solid white;
 }
 
 .check-plants-button:hover {
@@ -87,7 +96,7 @@ button:hover {
   display: inline-block;
   width: auto;
   position: absolute;
-  top: 10px;             /* distance from top */
+  top: 22px;             /* distance from top */
   right: 10px;             /* center horizontally */
   padding: 10px 20px;
   background-color: #070e07;
@@ -99,8 +108,57 @@ button:hover {
   transition: background-color 0.2s ease;
   cursor: pointer;
   user-select: none;
+  outline: 2px solid white;
 }
 
 .set-up-button:hover {
   background-color: #0c4619;
+}
+
+.homepage-header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #4caf50; /* green background */
+  color: rgb(7, 5, 5);
+  border: 3px solid #2e7d32; /* darker green border */
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.homepage-header h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  user-select: none;
+  font-family: "Times New Roman";
+  text-transform: uppercase;
+  -webkit-user-drag: none;
+  /* background-image: url('./sprites/ufc-knight');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; */
+  /* -webkit-text-stroke: 0.2px rgb(5, 5, 5); */
+}
+
+.knight-image {
+  display: absolute;
+  margin: 95px auto 0; 
+  width: 1000px;      
+  height: auto;
+  pointer-events: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Standard property */
+  -webkit-user-drag: none; /* Chrome/Safari */
+}
+
+.plants-header {
+  user-select: none;
 }

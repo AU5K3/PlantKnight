@@ -1,25 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Setup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [connectionId, setConnection] = useState("");
+  const [deviceId, setDeviceId] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage(`You entered: ${username} / ${password} / ${connectionId}`);
-    // Later, send POST to backend API here
+    setMessage(`You entered: ${username} / ${password} / ${deviceId}`);
+
+    // Navigate to AddPlant and pass deviceId
+    navigate("/addplant", { state: { deviceId } });
   };
 
   return (
     <div className="container">
       <header>
         <h1>Create Account</h1>
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
       </header>
       <main>
         <form onSubmit={handleSubmit}>
@@ -39,15 +40,15 @@ export default function Setup() {
             required
           />
 
-          <label>Connection Id:</label>
+          <label>Device Id:</label>
           <input
-            type="connectionID"
-            value={connectionId}
-            onChange={(e) => setConnection(e.target.value)}
+            type="text"
+            value={deviceId}
+            onChange={(e) => setDeviceId(e.target.value)}
             required
           />
 
-          <button type="submit">Confirm</button>
+          <button type="submit">Finish Setup</button>
         </form>
         <p>{message}</p>
       </main>
