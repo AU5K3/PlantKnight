@@ -125,7 +125,6 @@ button:hover {
   border: 3px solid #2e7d32; /* darker green border */
   padding: 20px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  user-select: none;
   pointer-events: none;
   user-select: none;
 }
@@ -160,5 +159,146 @@ button:hover {
 }
 
 .plants-header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #4caf50; /* green background */
+  color: rgb(7, 5, 5);
+  border: 3px solid #2e7d32; /* darker green border */
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
   user-select: none;
+}
+
+.plants-header h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  user-select: none;
+  font-family: "Times New Roman";
+  text-transform: uppercase;
+  -webkit-user-drag: none;
+}
+
+
+.plant-list {
+  /* Remove default list styles */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* --- Styles for the Individual Plant Box --- */
+.plant-item {
+  /* Makes the entire area clickable and visually distinct */
+  cursor: pointer;
+  
+  /* Box styling */
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 10px; /* Space between each plant box */
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.plant-item:hover {
+  background-color: #eef; /* Subtle hover effect */
+  border-color: #aaa;
+}
+
+/* --- Styles for the Text Content --- */
+.plant-name {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: #333;
+  pointer-events: none;
+  user-select: none;
+}
+
+.plant-species, .plant-status {
+  margin: 2px 0;
+  font-size: 0.9em;
+  color: #666;
+  pointer-events: none;
+  user-select: none;
+}
+
+.plant-status span {
+  font-weight: bold;
+  margin-left: 5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.plants-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.plants-page > nav {
+  position: absolute;
+  bottom: 1%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.plant-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;         /* same as the container */
+  max-width: 720px;   /* keep it nicely centered */
+  margin: 230px auto 20px auto;
+}
+
+.remove-plant-button {
+  width: auto !important;
+  user-select: none;
+  margin: 0;
+  font-size: 19px;
+  background-color: #070e07;
+}
+
+.remove-plant-button:hover {
+  background-color: #0c4619;
+}
+
+
+.add-plant-button {
+  width: auto !important;
+  user-select: none;
+  margin: 0;
+  font-size: 19px;
+  background-color: #070e07;
+}
+
+.add-plant-button:hover {
+  background-color: #0c4619;
+}
+
+.plant-list-container {
+  height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  
+  width: 80%;         /* same width as button group */
+  max-width: 700px;
+  margin: 40px auto 0 auto;
 }
