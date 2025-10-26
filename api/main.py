@@ -5,6 +5,7 @@ import secrets
 import inspect
 from json import JSONEncoder
 from bson.objectid import ObjectId
+import requests
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -100,7 +101,40 @@ except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
 
 def retrieve_plant_data(device_id: str) -> dict:
+    channel_id = int(device_id)
+    if not channel_id:
+        print("No channel_id provided")
+        return {}
 
+    url = (
+        f"https://api.thingspeak.com/channels/{channel_id}/feeds/last.json?"
+        f"api_key={os.getenv('THINKSPEAK_API_KEY')}"
+    )
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        
+        if data.get('field1') is None:
+            print("no data on channel")
+            return {}
+
+        most_recent_entry = {
+            "device_id": device_id,
+            "timestamp": data.get('created_at', datetime.datetime.now()),
+            "temperature": data.get('field1'),
+            "moisture": data.get('field2'),
+            "light_levels": data.get('field3'),
+            "species": "Unknown"
+        }
+
+        return most_recent_entry
+    except Exception as e:
+        print(f"Error retrieving plant data: {e}")
+        return {}
+    
+    """
     try:
         filter_query = {"device_id": device_id}
         sort_criteria = [("timestamp", DESCENDING)]
@@ -116,6 +150,7 @@ def retrieve_plant_data(device_id: str) -> dict:
             print("No entries found in the database.")
     except Exception as e:
         print(f"Error retrieving plant data: {e}")
+        """
 
 def get_LLM_response(most_recent_entry: dict) -> str:
     try:
@@ -343,6 +378,7 @@ def add_plant():
         username = data.get('username')
         plant_name = data.get('plant_name')
         species = data.get('species')
+        device_id = data.get('device_id')
 
         if not username or not plant_name or not species:
             return jsonify({'message': 'Username, plant_name, and species are required'}), 400
@@ -351,10 +387,10 @@ def add_plant():
         if not user_document:
             return jsonify({'message': 'User not found'}), 404
         
-        new_device_id = secrets.token_hex(4)
+        #new_device_id = secrets.token_hex(4)
 
         new_plant_device = {
-            'device_id': new_device_id,
+            'device_id': device_id,
             'plant_name': plant_name,
             'species': species,
             'is_connected': False
@@ -365,7 +401,7 @@ def add_plant():
             {'$addToSet': {'devices': new_plant_device}}
         )
 
-        return jsonify({'message': 'Plant added successfully', 'device_id': new_device_id}), 201
+        return jsonify({'message': 'Plant added successfully', 'device_id': device_id}), 201
     except Exception as e:
         print(f"Error adding plant: {e}")
         return jsonify({'message': str(e)}), 500
