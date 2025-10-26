@@ -6,6 +6,7 @@ import Setup from "./components/Setup";
 import Plants from "./components/Plants";
 import Plant from "./components/Plant";
 import AddPlant from "./components/AddPlant";
+import RemovePlant from "./components/RemovePlant";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/plants" element={<Plants />} />
         <Route path="/plants/:plantId" element={<Plant />} />
         <Route path="/addplant" element={<AddPlant />} />
+        <Route path="/removeplant" element={<RemovePlant />} />
       </Routes>
     </Router>
   );

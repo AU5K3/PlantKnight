@@ -43,7 +43,7 @@ export default function AddPlant() {
       <header>
         <h1>Add Plant</h1>
         <nav>
-          <Link to="/plants">Home</Link>
+          <Link to="/plants">Back</Link>
         </nav>
       </header>
       <main>

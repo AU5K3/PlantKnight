@@ -56,7 +56,7 @@ export default function Plants() {
   };
 
   const handleRemovePlant = () => {
-    alert("Remove Plant clicked");
+    navigate("/removeplant");
   };
 
   const openPlantDashboard = (plantId) => {
