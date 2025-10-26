@@ -74,14 +74,14 @@ def get_LLM_response(most_recent_entry: dict) -> str:
         exit()
 
     available_tools = {
-        "replace_plant_data": get_plant_conditions
+        "retrieve_plant_data": get_plant_conditions
     }
 
     system_instruction = """
     You are a highly specialized Horticulture AI Agent. Your primary function is to provide expert, actionable plant care recommendations.
     **Procedure:**
-    1. **ALWAYS** use the `replace_plant_data` tool to fetch plant care information before making any recommendations.
-    2. Compare the current environmental conditions (Temperature, Moisture, Light Levels) with the ideal conditions retrieved from the `replace_plant_data` tool.
+    1. **ALWAYS** use the `retrieve_plant_data` tool to fetch plant care information before making any recommendations.
+    2. Compare the current environmental conditions (Temperature, Moisture, Light Levels) with the ideal conditions retrieved from the `retrieve_plant_data` tool.
     3. Analyze discrepancies between current and ideal conditions and give a score from 1 to 100 on each parameter (Temperature, Moisture, Light Levels), where 100 means perfect conditions.
     4. Based on the scores, provide specific, actionable advice to optimize plant health in 1 to 2 sentences.
     5. **ALWAYS** Output your findings in JSON format with the following structure:
@@ -232,12 +232,20 @@ def catch_esp_data():
             return jsonify({'message': 'No data provided'}), 400
         
         data['timestamp'] = datetime.datetime.now()
+        data['temperature'] = (data.get('temperature') * 9/5) + 32  # Convert to Fahrenheit 
         result = plant_data.insert_one(data)
+        connecting_user = users.find_one({'username': data.get('username')})
+        if connecting_user:
+            users.update_one(
+                {'_id': connecting_user['_id']},
+                {'is_connected': True}
+            )
         return jsonify({'message': 'Data inserted successfully', 'id': str(result.inserted_id)}), 201
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
         return jsonify({'message': str(e)}), 500
     
+"""
 @app.route('/api/make_device_key', methods=['POST'])
 def make_device_key():
     try:
@@ -260,7 +268,44 @@ def make_device_key():
     except Exception as e:
         print(f"Error generating device key: {e}")
         return jsonify({'message': str(e)}), 500
+"""
+@app.route('/api/add_plant', methods=['POST'])
+def add_plant():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        plant_name = data.get('plant_name')
+        species = data.get('species')
 
+        if not username or not plant_name or not species:
+            return jsonify({'message': 'Username, plant_name, and species are required'}), 400
+        
+        user_document = users.find_one({'username': username})
+        if not user_document:
+            return jsonify({'message': 'User not found'}), 404
+        
+        new_device_id = secrets.token_hex(4)
+
+        new_plant_device = {
+            'device_id': new_device_id,
+            'plant_name': plant_name,
+            'species': species,
+            'is_connected': False
+        }
+
+        users.update_one(
+            {'_id': user_document['_id']},
+            {'$addToSet': {'devices': new_plant_device}}
+        )
+
+        return jsonify({'message': 'Plant added successfully', 'device_id': new_device_id}), 201
+    except Exception as e:
+        print(f"Error adding plant: {e}")
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/')
+def home():
+    print("Connected to PlantKnight API")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
